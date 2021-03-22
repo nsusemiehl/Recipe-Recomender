@@ -1,1 +1,1 @@
-"# Recipe-Recomender" 
+CSE 6242 Semester Project - RENDER: Recipes made easy - Tyah Dugger, Jose Garcia, Patrick Mudge, Christopher J. Nemastil, Nicholas Susemiehl 
