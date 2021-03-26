@@ -1,0 +1,192 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Bootstrap 4 Multi-Select Plugin Demo</title>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css?v3" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+body { min-height: 100vh;  font-family: 'Roboto'; }
+.container { margin: 150px auto; max-width: 640px; }
+#carbonads {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+  sans-serif;
+}
+
+#carbonads {
+  display: block;
+  overflow: hidden;
+  max-width: 728px;
+  position: relative;
+  font-size: 22px;
+  box-sizing: content-box;
+}
+
+#carbonads > span {
+  display: block;
+}
+
+#carbonads a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  color: inherit;
+}
+
+.carbon-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.carbon-img {
+  display: block;
+  margin: 0;
+  line-height: 1;
+}
+
+.carbon-img img {
+  display: block;
+  height: 90px;
+  width: auto;
+}
+
+.carbon-text {
+  display: block;
+  padding: 0 1em;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.carbon-poweredby {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 6px 10px;
+  hsla(203, 11%, 95%, 0.8);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 8px;
+  border-top-left-radius: 4px;
+  line-height: 1;
+  color:#aaa !important
+}
+.row {
+  background: #f8f9fa;
+  margin-top: 20px;
+}
+
+.col {
+  border: solid 1px #6c757d;
+  padding: 10px;
+}
+@media only screen and (min-width: 320px) and (max-width: 759px) {
+  .carbon-text {
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Add Ingredients</h1>
+
+    <select name="states" id="example" class="form-control"  multiple="multiple" style="display: none;">
+      <option>salt</option>
+      <option>pepper</option>
+      <option>sugar</option>
+      <option>oil</option>
+      <option>butter</option>
+      <option>cheese</option>
+      <option>garlic</option>
+      <option>onion</option>
+      <option>flour</option>
+      <option>water</option>
+      <option>cream cheese</option>
+      <option>milk</option>
+      <option>chicken</option>
+      <option>olive</option>
+      <option>egg</option>
+      <option>baking powder</option>
+      <option>juice</option>
+      <option>vanilla extract</option>
+      <option>vegetable</option>
+      <option>lemon</option>
+      <option>tomatoes</option>
+      <option>cinnamon</option>
+      <option>bell pepper</option>
+      <option>beef</option>
+      <option>vinegar</option>
+      <option>optional</option>
+      <option>bread</option>
+      <option>soda</option>
+      <option>chocolate</option>
+      <option>beans</option>
+      <option>tomato</option>
+      <option>broth</option>
+      <option>parsley</option>
+      <option>cheddar cheese</option>
+      <option>potatoes</option>
+      <option>celery</option>
+      <option>parmesan cheese</option>
+      <option>wine</option>
+      <option>rice</option>
+      <option>corn</option>
+      <option>mustard</option>
+      <option>peppers</option>
+      <option>basil</option>
+      <option>soy</option>
+      <option>ginger</option>
+      <option>mushrooms</option>
+      <option>bacon</option>
+      <option>chips</option>
+      <option>carrots</option>
+      <option>mayonnaise</option>
+    </select>
+  </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="dist/js/BsMultiSelect.js"></script>
+<script>$("select").bsMultiSelect({cssPatch : {
+                   choices: {columnCount:'3' },
+                }});</script>
+<script>
+try {
+  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
+    return true;
+  }).catch(function(e) {
+    var carbonScript = document.createElement("script");
+    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CK7DKKQU&placement=wwwjqueryscriptnet";
+    carbonScript.id = "_carbonads_js";
+    document.getElementById("carbon-block").appendChild(carbonScript);
+  });
+} catch (error) {
+  console.log(error);
+}
+</script>
+</body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</html>
