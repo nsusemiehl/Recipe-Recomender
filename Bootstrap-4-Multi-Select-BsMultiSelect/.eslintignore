@@ -1,6 +1,0 @@
-﻿**/*.min.js
-**/dist/
-**/vendor/
-/_gh_pages/
-/package.js
-/build/rollup.config.js
