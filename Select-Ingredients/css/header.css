@@ -20,7 +20,6 @@ body {
   font-size: 18px; 
   line-height: 25px;
   border-radius: 4px;
-
 }
 
 .header a.logo {
@@ -28,12 +27,16 @@ body {
   font-weight: bold;
 }
 
-.header .slogan{
+.header span.slogan {
   color: #81A4CD;
   font-size: 15px;
   font-style: italic;
   padding: 20px 10px;
   line-height: 49px;
+}
+
+.header-right {
+  float: right;
 }
 
 .header-right a:hover {
@@ -46,10 +49,6 @@ body {
   color: white;
 }
 
-.header-right {
-  float: right;
-}
-
 @media screen and (max-width: 500px) {
   .header a {
     float: none;
@@ -60,4 +59,13 @@ body {
   .header-right {
     float: none;
   }
+
+  .header span.slogan {
+    float: right;
+    line-height: 11px;
+  }
+}
+
+h4 {
+  color: #054A91;
 }
