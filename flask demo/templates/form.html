@@ -1,0 +1,20 @@
+<!-- <form method="POST">
+    <input name="text">
+    <input type="submit">
+</form> -->
+
+<title>Hello from Flask</title>
+{% if recipe %}
+  <h1>Your recipe: {{ recipe }}</h1>
+{% else %}
+  <h1>Insert Ingredients Below</h1>
+{% endif %}
+
+<div id="IngredientInput" class="data_entry">
+    <form action="{{ url_for('ingredient_input') }}" method="post" id="ingredientInputForm" enctype="multipart/form-data">
+        <input name="ingredient_input_text" class="input_box">
+        <input id="ingredientInput" type="submit" class='new-button-data' value="Input ingredients separated by commas">
+        <output id="ingredients" class="result_box" ></output>
+    </form>
+</div>
+
