@@ -13,11 +13,14 @@ from ast import literal_eval
 
 
 s_time = time.time()
-recipes_df = pd.read_csv(r'C:\Users\Nick\Desktop\data\full_dataframe.csv', na_values=['< 1']).fillna(0)
+recipes_df = pd.read_csv('full_dataframe.csv', na_values=['< 1']).fillna(0)
 recipes_df['ingredients'] = recipes_df.ingredients.apply(literal_eval)
 recipes_df['recipe_name'] = recipes_df['recipe_name'].astype(str)
 
 recipes_df = recipes_df[recipes_df['total_time'] != 0]
+recipes_df = recipes_df.drop_duplicates(subset=['recipe_name'])
+
+
 
 
 ##Initalize dictionary with all of the recipe names and a proportion of 0
@@ -34,12 +37,12 @@ for ind in recipes_df.index:
     for item in temp_list:
         all_ingredients[str(item)] += 1
         
-all_ingredients_df = pd.DataFrame(list(all_ingredients.items()), columns = ["Ingredient", "Count"])
+#all_ingredients_df = pd.DataFrame(list(all_ingredients.items()), columns = ["Ingredient", "Count"])
+#all_ingredients_df.to_csv(r'ingredient_list.csv', index= False, header = True)
 
-    
 
 """Get n ingredients from user"""
-n = int(input("How many main ingredients do you have? "))
+n = int(input("How many main ingredients do you have? "))#
 user_ingred_list = []
 for i in range(0,n):
       user_ingred_list.append(input("Ingredient: "))
@@ -48,32 +51,34 @@ for i in range(0,n):
 print("\nUser ingredients: ", user_ingred_list)
 
 
+print("\nPlease wait...\n")
+
+for index, row in recipes_df.iterrows():
+    ingre_list = row['ingredients']
+    for user_rec in user_ingred_list:
+        r = re.compile(".*(" + user_rec + ").*", flags=re.IGNORECASE)
+        match = list(filter(r.match, ingre_list))
+        if match:
+            recipe_list[row['recipe_name']] += 1/n
+            
+
+          
+                  
+
+recipes_prop = pd.DataFrame(list(recipe_list.items()), columns = ['recipe_name', 'p'])
+recipes_prop = pd.merge(recipes_df, recipes_prop, on = "recipe_name", how = "inner")
+recipes_prop = recipes_prop.loc[recipes_prop['p'] > 0.00 ].reset_index(drop = True)
+
+print("\nNumber of recipes to choose from now... ", len(recipes_prop))
+test_df = recipes_prop[["recipe_name","ingredients","p"]]
+
+
 """Get user nutrition preferences"""
 print("\n\nAny nutrition preferences? (enter 0, if none)")
 user_cals = int(input("Calories: "))
 user_carbs = int(input("Carbs (g): "))
 user_pro = int(input("Protein (g): "))
 user_sod = int(input("Sodium (mg): "))
-
-print("\nPlease wait...\n")
-
-for user_rec in user_ingred_list:
-      pattern = ".*(" + user_rec + ").*"
-      for i in recipes_df.index:
-          ingre_list = recipes_df["ingredients"][i]
-          for l in ingre_list:
-              result = re.match(pattern, l, flags=re.IGNORECASE)
-              if result:
-                  recipe_nm = recipes_df['recipe_name'][i]
-                  recipe_list[recipe_nm] += 1/n
-            
-
-recipes_prop = pd.DataFrame(list(recipe_list.items()), columns = ['recipe_name', 'p'])
-recipes_prop = pd.merge(recipes_df, recipes_prop, on = "recipe_name", how = "inner")
-recipes_prop = recipes_prop.loc[recipes_prop['p'] > 0.00].reset_index(drop = True)
-
-print("\nNumber of recipes to choose from now... ", len(recipes_prop))
-
 
 print("\nHow much emphasis on nutritients: (choose from low, med, high) ")
 
@@ -100,10 +105,14 @@ def filter_recipes(proportion_df, cals, carbs, pro, sod, wcals, wcarbs, wpro, ws
         filter_df = filter_df.loc[filter_df['sodium'] <= sod]      
 
 
-    filter_df['n'] = (wcals)/(1 + abs(cals - filter_df['calories'])) + \
-                     (wcarbs)/(1 + abs(carbs - filter_df['carbs'])) + \
-                     (wpro)/(1 + abs(pro - filter_df['protein'])) + \
-                     (wsod)/(1 + abs(sod - filter_df['sodium']))
+    # filter_df['n'] = (wcals)/(1 + abs(cals - filter_df['calories'])) + \
+    #                  (wcarbs)/(1 + abs(carbs - filter_df['carbs'])) + \
+    #                  (wpro)/(1 + abs(pro - filter_df['protein'])) + \
+    #                  (wsod)/(1 + abs(sod - filter_df['sodium']))
+    filter_df['n'] = (wcals/4)/(1 + abs(cals - filter_df['calories'])/2300) + \
+                      (wcarbs/4)/(1 + abs(carbs - filter_df['carbs'])/200) + \
+                      (wpro/4)/(1 + abs(pro - filter_df['protein'])/100) + \
+                      (wsod/4)/(1 + abs(sod - filter_df['sodium'])/2300)
     
     return filter_df
 
@@ -111,7 +120,9 @@ def filter_recipes(proportion_df, cals, carbs, pro, sod, wcals, wcarbs, wpro, ws
 
 def recipe_scorer(df):
     
-    df['score'] = df['p'] * ((1/(df['total_time'] * df['n_ingredients'])) + df['n'])
+    #df['score'] = df['p'] * ((1/(df['total_time'] * df['n_ingredients'])) + df['n'])
+    df['score'] = 10 * df['p'] + (10/(df['total_time']/60)\
+                    + (10 /df['n_ingredients']/10) + df['n'])
     return df
 
 
@@ -127,14 +138,20 @@ def final_df(df, ca, cb, p, s, cw, cbw, pw, sw):
     scored_df = recipe_scorer(filtered_df)
     sorted_df = sort_final(scored_df)
     
-    return sorted_df[['recipe_name','total_time','ingredients','steps', 'calories', 'protein', 'carbs', 'sodium', 'score']]
+    return sorted_df[['recipe_name','total_time','ingredients','steps', 'calories', 'protein', 'carbs', 'sodium', 'p', 'score']]
     
+
+time_contraint = int(input("\nTime constraints? (enter 0, if none): "))
 
 
 # ### MAIN ###
 
-test = final_df(recipes_prop, user_cals, user_carbs, user_pro, user_sod, cal_wgt, carbs_wgt, pro_wgt, sod_wgt)
-print(test.head(10))
+user_recs = final_df(recipes_prop, user_cals, user_carbs, user_pro, user_sod, cal_wgt, carbs_wgt, pro_wgt, sod_wgt)
+if time_contraint != 0:
+    final = user_recs.loc[user_recs['total_time'] <= time_contraint].reset_index(drop = True)
+    print(final.head(10))
+else:
+    print(user_recs.head(10))
     
 e_time = time.time()
 print("Time to execute", e_time - s_time)   
