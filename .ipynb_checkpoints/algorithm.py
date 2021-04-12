@@ -13,7 +13,7 @@ from ast import literal_eval
 
 
 s_time = time.time()
-recipes_df = pd.read_csv('full_dataframe.csv', na_values=['< 1']).fillna(0)
+recipes_df = pd.read_csv(r'C:\Users\Nick\Desktop\data\full_dataframe.csv', na_values=['< 1']).fillna(0)
 recipes_df['ingredients'] = recipes_df.ingredients.apply(literal_eval)
 recipes_df['recipe_name'] = recipes_df['recipe_name'].astype(str)
 
