@@ -1,0 +1,65 @@
+#container-left {
+	padding: 20px 22px;
+	margin-right: 20px;
+	width: 500px;
+	float: left; 
+	background-color: #DBE4EE;
+}
+
+#ingredients_search {
+	overflow: hidden; 
+	max-width: 500px;
+}
+
+#ingredients_select {
+	display: none;
+}
+
+#container-right {
+	padding: 20px
+}
+
+.slidecontainer {
+	width: 100%;
+	padding-top: 20px;
+}
+
+.slider {
+	-webkit-appearance: none;
+	width: 40%;
+	height: 15px;
+	border-radius: 5px;
+	background: #3E7CB1;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+	float: right;
+}
+
+.slider:hover {
+	opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #F17300;
+	cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #4CAF50;
+	cursor: pointer;
+}
+
+span[id*='target'] {
+	color: #054A91;
+	font-weight: bold
+}
