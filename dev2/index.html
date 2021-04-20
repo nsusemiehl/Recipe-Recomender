@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>RENDER</title>
+  
+  <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="js/chosen.jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<!--CSS Link---------------------------------->
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/container.css">
+  <link rel="stylesheet" href="css/chosen.min.css">
+  <link rel="stylesheet" href="css/sliders.css">
+  <link rel="stylesheet" href="css/jquery-ui.css">
+<!-------------------------------------------->
+</head>
+<!--COLOR PALETTE------------------------------
+https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
+---------------------------------------------->
+<body>
+<!--HEADER------------------------------------>
+<div class="header">
+  <span class="slogan">Recipies made simple.</span>
+  <a href="#default" class="logo">RENDER</a>
+
+  <div id="header-right" class="header-right">
+    <span style="color: white; font-size: 10pt"><i>Filter by:</i></span>
+    <button class="btn active">Ingredient List</button>
+    <button class="btn">Nutrition Targets</button>
+  </div>
+
+</div>
+<!-------------------------------------------->
+
+<div id="page" class="float-container">
+<!--LEFT-SIDE MENU---------------------------->
+  <div id="container-left" class="container">
+
+	<form action="http://httpbin.org/post" method="post">
+	  <select id="mselect" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 384px"></select>
+
+	<!--INGREDIENT LIST FOR SEARCH BAR------------>
+	  <script type="text/javascript">
+		function insertIngredientInList(country) {
+		  var list = $('select#mselect');
+		  var newOption = 
+		      $('<option></option>')
+		      .attr('value', country.ingredient)
+		      .text(country.ingredient);
+
+		  list.append(newOption);
+
+		}
+
+		var CSV_PATH = './data/test.csv';
+		
+
+		$.get(CSV_PATH, function (data) {
+		  var lines = data.split("\n");
+
+		  lines.shift();
+
+		  var ingredients = lines.map(function (line) {
+		    var fields = line.split(",");
+		    return {
+		      count: fields[1], 
+		      ingredient: fields[0]
+		    };
+		  });
+		  
+		  ingredients.forEach(insertIngredientInList);
+
+		});
+	  </script>
+	<!-------------------------------------------->
+
+	  </select>
+	  <input type="button" value="Search">
+	</form>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		  $("#mselect").chosen();
+		});
+	</script>
+
+	<div class="slidecontainer">
+      <form>
+        <h4>TARGETS</h4>
+        <!--<p>Calories: <span id="targetCalories"></span> <input type="range" min="0" max="2000" value="empty" class="slider" id="calories"></p>
+        <p>Carbohydrates (g): <span id="targetCarbohydrates"></span> <input type="range" min="0" max="275" value="50%" class="slider" id="carbohydrates"></p>
+        <p>Cholesterol (mg): <span id="targetCholesterol"></span> <input type="range" min="0" max="300" value="50%" class="slider" id="cholesterol"></p>
+        <p>Protein (g): <span id="targetProtein"></span> <input type="range" min="0" max="100" value="50%" class="slider" id="protein"></p>
+        <p>Sodium (mg): <span id="targetSodium"></span> <input type="range" min="0" max="2300" value="50%" class="slider" id="sodium"></p>-->
+        <!--Reset button does not remove displayed values, only resets slider to 50%.-->
+        <!--<input type="reset" value="Reset">-->
+      </form>
+		
+	  <!--Calories Range Slider--------------------->
+      <script>
+	  $( function() {
+	    $( "#calories-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 2000,
+	      values: [ 0, 2000 ],
+	      slide: function( event, ui ) {
+	        $( "#calories" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#calories" ).val( $( "#calories-range" ).slider( "values", 0 ) +
+	      " - " + $( "#calories-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <label for="calories">Calories:</label>
+	  <input type="text" id="calories" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="calories-range"></div>
+	  <!-------------------------------------------->
+
+	  <!--Carbohydrates Range Slider---------------->
+      <script>
+	  $( function() {
+	    $( "#carbohydrates-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 275,
+	      values: [ 0, 275 ],
+	      slide: function( event, ui ) {
+	        $( "#carbohydrates" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#carbohydrates" ).val( $( "#carbohydrates-range" ).slider( "values", 0 ) +
+	      " - " + $( "#carbohydrates-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <br>
+	  <label for="carbohydrates">Carbohydrates (mg):</label>
+	  <input type="text" id="carbohydrates" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="carbohydrates-range"></div>
+	  <!-------------------------------------------->
+
+	  <!--Protein Range Slider---------------->
+      <script>
+	  $( function() {
+	    $( "#protein-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 100,
+	      values: [ 0, 100 ],
+	      slide: function( event, ui ) {
+	        $( "#protein" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#protein" ).val( $( "#protein-range" ).slider( "values", 0 ) +
+	      " - " + $( "#protein-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <br>
+	  <label for="protein">Protein (g):</label>
+	  <input type="text" id="protein" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="protein-range"></div>
+	  <!-------------------------------------------->
+
+	  <!--Sodium Range Slider---------------->
+      <script>
+	  $( function() {
+	    $( "#sodium-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 2300,
+	      values: [ 0, 2300 ],
+	      slide: function( event, ui ) {
+	        $( "#sodium" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#sodium" ).val( $( "#sodium-range" ).slider( "values", 0 ) +
+	      " - " + $( "#sodium-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <br>
+	  <label for="sodium">Sodium (mg):</label>
+	  <input type="text" id="sodium" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="sodium-range"></div>
+	  <!-------------------------------------------->
+    </div>
+  </div>
+<!-------------------------------------------->   
+
+
+
+<!--DISPLAY AREA------------------------------>
+  <div id="container-right" class="container-fluid">Display Area
+  </div>
+<!-------------------------------------------->
+</div>
+
+
+</body>
+</html>
