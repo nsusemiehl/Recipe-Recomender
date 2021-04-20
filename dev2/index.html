@@ -29,9 +29,11 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
   <a href="#default" class="logo">RENDER</a>
 
   <div id="header-right" class="header-right">
-    <span style="color: white; font-size: 10pt"><i>Filter by:</i></span>
-    <button class="btn active">Ingredient List</button>
-    <button class="btn">Nutrition Targets</button>
+    <span style="color: white; font-size: 10pt"><i>Primary Filter:</i></span>
+    <select style="margin-top: 15px; margin-right: 50px; width: 200px">
+    	<option value="ingredientFilter">Ingredient List</option>
+    	<option value="nutritionFilter">Nutrition Targets</option>
+    </select>
   </div>
 
 </div>
@@ -41,65 +43,66 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 <!--LEFT-SIDE MENU---------------------------->
   <div id="container-left" class="container">
 
-	<form action="http://httpbin.org/post" method="post">
+  	<h4>INGREDIENT LIST</h4>
+
+	<form>
 	  <select id="mselect" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 384px"></select>
-
-	<!--INGREDIENT LIST FOR SEARCH BAR------------>
-	  <script type="text/javascript">
-		function insertIngredientInList(country) {
-		  var list = $('select#mselect');
-		  var newOption = 
-		      $('<option></option>')
-		      .attr('value', country.ingredient)
-		      .text(country.ingredient);
-
-		  list.append(newOption);
-
-		}
-
-		var CSV_PATH = './data/test.csv';
-		
-
-		$.get(CSV_PATH, function (data) {
-		  var lines = data.split("\n");
-
-		  lines.shift();
-
-		  var ingredients = lines.map(function (line) {
-		    var fields = line.split(",");
-		    return {
-		      count: fields[1], 
-		      ingredient: fields[0]
-		    };
-		  });
-		  
-		  ingredients.forEach(insertIngredientInList);
-
-		});
-	  </script>
-	<!-------------------------------------------->
-
-	  </select>
 	  <input type="button" value="Search">
 	</form>
 
+    <br>
+
+	<h4>CANNOT HAVE</h4>
+
+	<form>
+  		<select id="mselect2" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 450px"></select>
+	</form>
+
+	<!--INGREDIENT LIST FOR SEARCH BAR------------>
 	<script type="text/javascript">
-		$(document).ready(function() {
-		  $("#mselect").chosen();
-		});
+	function insertIngredientInList(data) {
+	  var list = $('.chosen-select');
+	  var newOption = 
+	      $('<option></option>')
+	      .attr('value', data.ingredient)
+	      .text(data.ingredient);
+
+	  list.append(newOption);
+
+	}
+
+	var CSV_PATH = './data/test.csv';
+
+
+	$.get(CSV_PATH, function (data) {
+	  var lines = data.split("\n");
+
+	  lines.shift();
+
+	  var ingredients = lines.map(function (line) {
+	    var fields = line.split(",");
+	    return {
+	      count: fields[1], 
+	      ingredient: fields[0]
+	    };
+	  });
+	  
+	  ingredients.forEach(insertIngredientInList);
+
+	});
+
+	$(document).ready(function() {
+	  $(".chosen-select").chosen();
+	});
+
 	</script>
+	<!-------------------------------------------->
+
+	<!-------------------------------------------->
 
 	<div class="slidecontainer">
-      <form>
-        <h4>TARGETS</h4>
-        <!--<p>Calories: <span id="targetCalories"></span> <input type="range" min="0" max="2000" value="empty" class="slider" id="calories"></p>
-        <p>Carbohydrates (g): <span id="targetCarbohydrates"></span> <input type="range" min="0" max="275" value="50%" class="slider" id="carbohydrates"></p>
-        <p>Cholesterol (mg): <span id="targetCholesterol"></span> <input type="range" min="0" max="300" value="50%" class="slider" id="cholesterol"></p>
-        <p>Protein (g): <span id="targetProtein"></span> <input type="range" min="0" max="100" value="50%" class="slider" id="protein"></p>
-        <p>Sodium (mg): <span id="targetSodium"></span> <input type="range" min="0" max="2300" value="50%" class="slider" id="sodium"></p>-->
-        <!--Reset button does not remove displayed values, only resets slider to 50%.-->
-        <!--<input type="reset" value="Reset">-->
-      </form>
+
+    <h4>TARGETS</h4>
 		
 	  <!--Calories Range Slider--------------------->
       <script>
@@ -188,6 +191,7 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 	  <div id="sodium-range"></div>
 	  <!-------------------------------------------->
     </div>
+
   </div>
 <!-------------------------------------------->   
 
