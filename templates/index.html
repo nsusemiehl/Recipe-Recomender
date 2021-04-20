@@ -1,16 +1,22 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>RENDER</title>
-  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css?v3" rel="stylesheet" type="text/css">
+  
+  <script type="text/javascript" src="static/js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="static/js/chosen.jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 <!--CSS Link---------------------------------->
   <link rel="stylesheet" href="static/css/header.css">
   <link rel="stylesheet" href="static/css/container.css">
+  <link rel="stylesheet" href="static/css/chosen.min.css">
+  <link rel="stylesheet" href="static/css/sliders.css">
+  <link rel="stylesheet" href="static/css/jquery-ui.css">
 <!-------------------------------------------->
 </head>
 <!--COLOR PALETTE------------------------------
@@ -19,135 +25,182 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 <body>
 <!--HEADER------------------------------------>
 <div class="header">
-  <span class="slogan">Recipes made simpler.</span>
+  <span class="slogan">Recipes made simple.</span>
   <a href="#default" class="logo">RENDER</a>
 
-  <div class="header-right">
-    <a class="active" href="#home">Home</a>
-    <a href="#shopping">Shopping</a>
-    <a href="#explore">Explore</a>
+  <div id="header-right" class="header-right">
+    <span style="color: white; font-size: 10pt"><i>Primary Filter:</i></span>
+    <select style="margin-top: 15px; margin-right: 50px; width: 200px">
+    	<option value="ingredientFilter">Ingredient List</option>
+    	<option value="nutritionFilter">Nutrition Targets</option>
+    </select>
   </div>
 
 </div>
 <!-------------------------------------------->
+
 <div id="page" class="float-container">
 <!--LEFT-SIDE MENU---------------------------->
-  <div id="container-left" class="container"> <!--Do not change class, as this will impact BsMultiSelect-->
-    <form action="{{ url_for('ingredient_input') }}" method="post" id="ingredientInputForm" enctype="multipart/form-data"><!--Needed to make this a form in order to get the 'Reset' button to clear all ingredients from the select bar.-->
-      <h4>INGREDIENTS</h4>
-<!--       <select name="ingredients" id="ingredients_select" class="form-control" multiple="multiple">
-        <option>salt</option>
-        <option>pepper</option>
-        <option>sugar</option>
-        <option>oil</option>
-        <option>butter</option>
-        <option>cheese</option>
-        <option>garlic</option>
-        <option>onion</option>
-        <option>flour</option>
-        <option>water</option>
-        <option>cream cheese</option>
-        <option>milk</option>
-        <option>chicken</option>
-        <option>olive</option>
-        <option>egg</option>
-        <option>baking powder</option>
-        <option>juice</option>
-        <option>vanilla extract</option>
-        <option>vegetable</option>
-        <option>lemon</option>
-        <option>tomatoes</option>
-        <option>cinnamon</option>
-        <option>bell pepper</option>
-        <option>beef</option>
-        <option>vinegar</option>
-        <option>optional</option>
-        <option>bread</option>
-        <option>soda</option>
-        <option>chocolate</option>
-        <option>beans</option>
-        <option>tomato</option>
-        <option>broth</option>
-        <option>parsley</option>
-        <option>cheddar cheese</option>
-        <option>potatoes</option>
-        <option>celery</option>
-        <option>parmesan cheese</option>
-        <option>wine</option>
-        <option>rice</option>
-        <option>corn</option>
-        <option>mustard</option>
-        <option>peppers</option>
-        <option>basil</option>
-        <option>soy</option>
-        <option>ginger</option>
-        <option>mushrooms</option>
-        <option>bacon</option>
-        <option>chips</option>
-        <option>carrots</option>
-        <option>mayonnaise</option>
-      </select> -->
-      <input name="ingredient_input_text" class="input_box">
-      <input id="ingredientInput" type="submit" class='new-button-data' value="Input ingredients separated by commas">
-      <input type="reset" value="Reset" style="margin-top: 10px"> <!--Clears all selected ingredients.-->
-      <!-- <output id="ingredients" ></output> -->
-    </form>
+  <div id="container-left" class="container">
 
-    <div class="slidecontainer">
-      <form>
-        <h4>TARGETS</h4>
-        <p>Calories: <span id="targetCalories"></span> <input type="range" min="0" max="2000" value="empty" class="slider" id="calories"></p>
-        <p>Carbohydrates (g): <span id="targetCarbohydrates"></span> <input type="range" min="0" max="275" value="50%" class="slider" id="carbohydrates"></p>
-        <p>Cholesterol (mg): <span id="targetCholesterol"></span> <input type="range" min="0" max="300" value="50%" class="slider" id="cholesterol"></p>
-        <p>Protein (g): <span id="targetProtein"></span> <input type="range" min="0" max="100" value="50%" class="slider" id="protein"></p>
-        <p>Sodium (mg): <span id="targetSodium"></span> <input type="range" min="0" max="2300" value="50%" class="slider" id="sodium"></p>
-        <!--Reset button does not remove displayed values, only resets slider to 50%.-->
-        <!--<input type="reset" value="Reset">-->
-      </form>
+  	<form action="{{ url_for('ingredient_input') }}" method="post" id="ingredientInputForm" enctype="multipart/form-data">
+
+  	<h4>INGREDIENT LIST</h4>
+	<select id="mselect" name="ingredient_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 384px"></select>
+
+	<h4>CANNOT HAVE</h4>
+	<select id="mselect2" name="exclusions_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 450px"></select>
+
+	<h4>TIME CONSTRAINT</h4>
+	<!-- <label for="time"> Input time (min.) </label> -->
+	<input name="time_input_text" type="text" placeholder="Type time (mins.)">
+
+	<!--INGREDIENT LIST FOR SEARCH BAR------------>
+	<script type="text/javascript">
+	function insertIngredientInList(data) {
+	  var list = $('.chosen-select');
+	  var newOption = 
+	      $('<option></option>')
+	      .attr('value', data.ingredient)
+	      .text(data.ingredient);
+
+	  list.append(newOption);
+
+	}
+
+	var CSV_PATH = './static/data/test.csv';
+
+
+	$.get(CSV_PATH, function (data) {
+	  var lines = data.split("\n");
+
+	  lines.shift();
+
+	  var ingredients = lines.map(function (line) {
+	    var fields = line.split(",");
+	    return {
+	      count: fields[1], 
+	      ingredient: fields[0]
+	    };
+	  });
+	  
+	  ingredients.forEach(insertIngredientInList);
+
+	});
+
+	$(document).ready(function() {
+	  $(".chosen-select").chosen();
+	});
+
+	</script>
+	<!-------------------------------------------->
+
+	<!-------------------------------------------->
+
+	<div class="slidecontainer">
+
+    <h4>TARGETS</h4>
+		
+	  <!--Calories Range Slider--------------------->
+      <script>
+	  $( function() {
+	    $( "#calories-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 2000,
+	      values: [ 0, 2000 ],
+	      slide: function( event, ui ) {
+	        $( "#calories" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#calories" ).val( $( "#calories-range" ).slider( "values", 0 ) +
+	      " - " + $( "#calories-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+
+	  <label for="calories">Calories:</label>
+	  <input name="calories" type="text" id="calories" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="calories-range"></div>
+	  <!-------------------------------------------->
+
+	  <!--Carbohydrates Range Slider---------------->
+      <script>
+	  $( function() {
+	    $( "#carbohydrates-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 275,
+	      values: [ 0, 275 ],
+	      slide: function( event, ui ) {
+	        $( "#carbohydrates" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#carbohydrates" ).val( $( "#carbohydrates-range" ).slider( "values", 0 ) +
+	      " - " + $( "#carbohydrates-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <br>
+	  <label for="carbohydrates">Carbohydrates (mg):</label>
+	  <input name="carbs" type="text" id="carbohydrates" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="carbohydrates-range"></div>
+	  <!-------------------------------------------->
+
+	  <!--Protein Range Slider---------------->
+      <script>
+	  $( function() {
+	    $( "#protein-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 100,
+	      values: [ 0, 100 ],
+	      slide: function( event, ui ) {
+	        $( "#protein" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#protein" ).val( $( "#protein-range" ).slider( "values", 0 ) +
+	      " - " + $( "#protein-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <br>
+	  <label for="protein">Protein (g):</label>
+	  <input name="protein" type="text" id="protein" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="protein-range"></div>
+	  <!-------------------------------------------->
+
+	  <!--Sodium Range Slider---------------->
+      <script>
+	  $( function() {
+	    $( "#sodium-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 2300,
+	      values: [ 0, 2300 ],
+	      slide: function( event, ui ) {
+	        $( "#sodium" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#sodium" ).val( $( "#sodium-range" ).slider( "values", 0 ) +
+	      " - " + $( "#sodium-range" ).slider( "values", 1 ) );
+	  } );
+	  </script>
+	  <br>
+	  <label for="sodium">Sodium (mg):</label>
+	  <input name="sodium" type="text" id="sodium" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
+	  <div id="sodium-range"></div>
+	  <!-------------------------------------------->
     </div>
 
-      <script>
-      var sliderCalories = document.getElementById("calories");
-      var outputCalories = document.getElementById("targetCalories");
-      //outputCalories.innerHTML = sliderCalories.value; //Removing comments will display initial value of 50%.
-      sliderCalories.oninput = function() {
-        outputCalories.innerHTML = this.value;
-      }
+	<input id="ingredientInput" type="submit" class='new-button-data' value="Submit">
+	<input type="reset" value="Reset"> <!--Clears all selected ingredients.-->
+	</form>
 
-      var sliderCarbohydrates = document.getElementById("carbohydrates");
-      var outputCarbohydrates = document.getElementById("targetCarbohydrates");
-      //outputCarbohydrates.innerHTML = sliderCarbohydrates.value;
-      sliderCarbohydrates.oninput = function() {
-        outputCarbohydrates.innerHTML = this.value;
-      }
-
-      var sliderCholesterol = document.getElementById("cholesterol");
-      var outputCholesterol = document.getElementById("targetCholesterol");
-      //outputCholesterol.innerHTML = sliderCholesterol.value;
-      sliderCholesterol.oninput = function() {
-        outputCholesterol.innerHTML = this.value;
-      }
-
-      var sliderProtein = document.getElementById("protein");
-      var outputProtein = document.getElementById("targetProtein");
-      //outputProtein.innerHTML = sliderProtein.value;
-      sliderProtein.oninput = function() {
-        outputProtein.innerHTML = this.value;
-      }
-
-      var sliderSodium = document.getElementById("sodium");
-      var outputSodium = document.getElementById("targetSodium");
-      //outputSodium.innerHTML = sliderSodium.value;
-      sliderSodium.oninput = function() {
-        outputSodium.innerHTML = this.value;
-      }
-      </script>
   </div>
-
 <!-------------------------------------------->   
+
+
+
 <!--DISPLAY AREA------------------------------>
-  <div id="container-right" class="container-fluid">
-  {% if recipe %}
+  <div id="container-right" class="container-fluid">  {% if recipe %}
     <h1>Your recipe: {{ recipe }}</h1>
   {% else %}
     <h1>Insert Ingredients Below</h1>
@@ -155,47 +208,7 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
   </div>
 <!-------------------------------------------->
 </div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-<script src="static/js/BsMultiSelect.js"></script>
 
-<script>
-  $("select").bsMultiSelect({cssPatch : {
-    choices: {columnCount:'3' },
-    picks_disabled: {backgroundColor: '#e9ecef'},
-  }});
-</script>
 
-<script>
-  $("select[multiple='multiple']").bsMultiSelect({
-      useCssPatch=true, // default, can be ommitted
-      cssPatch: {
-        // choices - dropdown menu items
-        choices: {listStyleType:'none'},
-        choice: 'px-md-2 px-1',  // classes!
-        choice_hover: 'text-primary bg-light', 
-        choiceLabel_disabled: {opacity: '.65'},
-        
-        // picks - panel where selected item located
-        picks: {listStyleType:'none', display:'flex', flexWrap:'wrap',  height: 'auto', marginBottom: '0'},
-        picks_disabled: {backgroundColor: '#e9ecef'},
-        picks_focus: {borderColor: '#80bdff', boxShadow: '0 0 0 0.2rem rgba(0, 123, 255, 0.25)'},
-        picks_focus_valid: {boxShadow: '0 0 0 0.2rem rgba(40, 167, 69, 0.25)'},
-        picks_focus_invalid: {boxShadow: '0 0 0 0.2rem rgba(220, 53, 69, 0.25)'},
-        picks_def: {minHeight: 'calc(2.25rem + 2px)'},
-        picks_lg:  {minHeight: 'calc(2.875rem + 2px)'},
-        picks_sm:  {minHeight: 'calc(1.8125rem + 2px)'},
-        pick: {paddingLeft: '0px', lineHeight: '1.5em'},
-        pickButton: {fontSize:'1.5em', lineHeight: '.9em', float : "none"},
-        pickContent_disabled: {opacity: '.65'}, 
-
-        filterInput: {border:'0px', height: 'auto', boxShadow:'none', padding:'0', margin:'0', 
-                     outline:'none', backgroundColor:'transparent'}
-      }
-  });
-</script>
-
-</script>
 </body>
 </html>
