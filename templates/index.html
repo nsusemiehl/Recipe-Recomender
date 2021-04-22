@@ -26,34 +26,48 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 <!--HEADER------------------------------------>
 <div class="header">
   <span class="slogan">Recipes made simple.</span>
-  <a href="#default" class="logo">RENDER</a>
+  <a href="/" class="logo">RENDER</a>
 
   <div id="header-right" class="header-right">
-    <span style="color: white; font-size: 10pt"><i>Primary Filter:</i></span>
+  <button onClick="window.location.href = '/';">Reset</button>
+<!--     <span style="color: white; font-size: 10pt"><i>Primary Filter:</i></span>
     <select style="margin-top: 15px; margin-right: 50px; width: 200px">
     	<option value="ingredientFilter">Ingredient List</option>
     	<option value="nutritionFilter">Nutrition Targets</option>
-    </select>
+    </select> -->
   </div>
 
 </div>
 <!-------------------------------------------->
 
+{% if error %}
+
+{{ error }}
+<p></p>
+<button onClick="window.location.href = '/';">Reset</button>
+{% endif %}
 <div id="page" class="float-container">
 <!--LEFT-SIDE MENU---------------------------->
+{% if not recipes and not error %}
   <div id="container-left" class="container">
 
-  	<form action="{{ url_for('ingredient_input') }}" method="post" id="ingredientInputForm" enctype="multipart/form-data">
+  	<form action="{{ url_for('render') }}" method="post" id="ingredientInputForm" enctype="multipart/form-data">
 
-  	<h4>INGREDIENT LIST</h4>
+  	<h4>Ingredients List</h4>
+  	<label class="descr">The ingredients that you have available.</label>
 	<select id="mselect" name="ingredient_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 384px"></select>
 
-	<h4>CANNOT HAVE</h4>
+	<p></p>
+
+	<h4>Exclusions</h4>
+	<label class="descr">Recipes with these ingredients in them will not be returned.</label>
 	<select id="mselect2" name="exclusions_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 450px"></select>
 
-	<h4>TIME CONSTRAINT</h4>
-	<!-- <label for="time"> Input time (min.) </label> -->
-	<input name="time_input_text" type="text" placeholder="Type time (mins.)">
+	<p></p>
+
+	<h4>Time Constraint</h4>
+	<label class="descr">Recipes that take more time than this to prepare will not be returned.</label>
+	<input name="time_input_text" type="number" min="1" placeholder="(minutes)">
 
 	<!--INGREDIENT LIST FOR SEARCH BAR------------>
 	<script type="text/javascript">
@@ -99,8 +113,8 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 
 	<div class="slidecontainer">
 
-    <h4>TARGETS</h4>
-		
+    <h4>Nutritional Targets</h4>
+	<label class="descr">Only recipes with nutritients within the given ranges will be returned.</label>	
 	  <!--Calories Range Slider--------------------->
       <script>
 	  $( function() {
@@ -190,21 +204,60 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 	  <!-------------------------------------------->
     </div>
 
-	<input id="ingredientInput" type="submit" class='new-button-data' value="Submit">
-	<input type="reset" value="Reset"> <!--Clears all selected ingredients.-->
+    <p></p>
+
+	<h4>Priority Factor</h4>
+	<label class="descr">Would you like to prioritize recipes that match your ingredient list, time constraint, or nutritional targets?</label>
+	<input name="priority" type="radio" id="ingredient_priority" value="ingredients">
+	<label for="ingredient_priority">Ingredients</label>
+	<input name="priority" type="radio" id="time_priority" value="time">
+	<label for="time_priority">Time</label>
+	<input name="priority" type="radio" id="nutrition_priority" value="nutrition">
+	<label for="nutrition_priority">Nutrition</label>
+	<input name="priority" type="radio" id="no_priority" value="none">
+	<label for="no_priority">No Priority</label>
+
+	<p></p>
+
+	<h4>Number of Recipes</h4>
+	<label class="descr">The number of recipes to be returned.</label>
+	<input name="num_rec" type="number" min="1">
+
+	<p></p>
+
+	<input id="ingredientInput" type="submit" value="Submit">
+	
 	</form>
 
+	<p></p>
+
+	<button onClick="window.location.href = '/';">Reset</button>
+	
+
   </div>
+  {% endif %}
 <!-------------------------------------------->   
 
 
 
 <!--DISPLAY AREA------------------------------>
-  <div id="container-right" class="container-fluid">  {% if recipe %}
-    <h1>Your recipe: {{ recipe }}</h1>
-  {% else %}
-    <h1>Insert Ingredients Below</h1>
-  {% endif %}
+  <div id="container-right" class="container-fluid">  
+	{% if recipes %}
+    	<h1>Your recipes:</h1>
+    	{% for k, v in recipes.items() %}
+			<h2>{{ k }}</h2>
+			<h3>Ingredients: {{ v.ingredients }}</h3>
+			<h3>Steps: {{ v.steps }}</h3>
+			<h3>Total Time: {{ v.total_time }}</h3>
+			<h3>Calories: {{ v.calories }}</h3>
+			<h3>Carbohydrates (mg): {{ v.carbs }}</h3>
+			<h3>Protein (g): {{ v.protein }}</h3>
+			<h3>Sodium (mg): {{ v.sodium }}</h3>
+    	{% endfor %}
+	<button onClick="window.location.href = '/';">Reset</button>
+	{% else %}
+    	<img src="{{url_for('static', filename='render.jpg')}}" align="middle" />
+	{% endif %}
   </div>
 <!-------------------------------------------->
 </div>
