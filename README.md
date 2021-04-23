@@ -21,3 +21,5 @@ Navigate to the address given by your system.  It typically defaults to http://1
 From there, follow the directions on the UI.
 
 Depending on requirements chosen and computing power, it may take up to a few minutes to return the recipes.
+
+Video for running on Windows: https://youtu.be/sLMzK9bqdlw
