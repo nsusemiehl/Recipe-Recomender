@@ -14,11 +14,11 @@ Navigate to ./Recipe-Recomender-master
 >set FLASK_APP=flask_dashboard.py
 >python -m flask run
 
-In MacOS:
-
-
 Navigate to the address given by your system.  It typically defaults to http://127.0.0.1:5000/
 From there, follow the directions on the UI.
+
+We did not test this in MacOS, as we did not have it readily available for develoment and testing.  If MacOS is required, these links may help: https://phoenixnap.com/kb/install-flask https://stackoverflow.com/questions/33481974/importerror-no-module-named-pandas.  
+Using a virtual Windows environment may also work.
 
 Depending on requirements chosen and computing power, it may take up to a few minutes to return the recipes.
 
