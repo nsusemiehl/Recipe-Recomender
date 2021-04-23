@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <meta charset="utf-8">
   <title>RENDER</title>
   
@@ -206,16 +207,24 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 
     <p></p>
 
-	<h4>Priority Factor</h4>
-	<label class="descr">Would you like to prioritize recipes that match your ingredient list, time constraint, or nutritional targets?</label>
-	<input name="priority" type="radio" id="ingredient_priority" value="ingredients">
+	<h4>Weights</h4>
+	<label class="descr">How important (on a scale from 0 to 1.0 where 0 is least and 1 is most) is it to you that...</label>
+	<label class="descr">The recipe has a small number of ingredients:</label>
+	<input name="ingredient_number_weight" type="number" min="0" max="1" step="0.1" placeholder="0.5">
+	<label class="descr">The recipe doesn't take long to cook:</label>
+	<input name="time_weight" type="number" min="0" max="1" step="0.1" placeholder="0.5">
+
+<!-- 	<label class="descr">Nutrition</label>
+	<input name="nutrition_weight" type="number" min="0" max="1" step="0.1" placeholder="1.0"> -->
+
+<!-- 	<input name="priority" type="radio" id="ingredient_priority" value="ingredients">
 	<label for="ingredient_priority">Ingredients</label>
 	<input name="priority" type="radio" id="time_priority" value="time">
 	<label for="time_priority">Time</label>
 	<input name="priority" type="radio" id="nutrition_priority" value="nutrition">
 	<label for="nutrition_priority">Nutrition</label>
 	<input name="priority" type="radio" id="no_priority" value="none">
-	<label for="no_priority">No Priority</label>
+	<label for="no_priority">No Priority</label> -->
 
 	<p></p>
 
@@ -225,8 +234,8 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 
 	<p></p>
 
-	<input id="ingredientInput" type="submit" value="Submit">
-	
+	<input id="ingredientInput" type="submit" value="Submit" placeholder="This will take 1 - 2 mins. to run.">
+	<p>(Takes 1-2 mins. to run)</p>	
 	</form>
 
 	<p></p>

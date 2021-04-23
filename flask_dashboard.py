@@ -8,12 +8,14 @@ import numpy as np
 from flask import Flask, request, render_template, url_for
 
 class Algorithm():
-    def __init__(self, processed_ingredients, processed_exclusions, time, lower_cals, upper_cals, lower_carbs, upper_carbs, lower_protein, upper_protein, lower_sodium, upper_sodium, priority, num_rec):
-        self.strict = "y"
+    def __init__(self, processed_ingredients, processed_exclusions, time, lower_cals, upper_cals, lower_carbs, upper_carbs, lower_protein, upper_protein, lower_sodium, upper_sodium, ingredient_number_weight, time_weight, strict, num_rec):
+        self.strict = strict
 
         self.user_ingred_list = processed_ingredients
         self.user_banned_ingre = processed_exclusions
         self.time_constraint = time
+        self.ingredient_number_weight = ingredient_number_weight
+        self.time_weight = time_weight
         self.num_rec = num_rec
 
         self.lower_cals = lower_cals
@@ -87,10 +89,10 @@ class Algorithm():
                             match_1 = list(filter(r_1.match, ingre_list))
                             if not match_1:
                                 recipe_list[row['recipe_name']] += 1/nn
-                                ingre_list.remove(match[0])
+                                # ingre_list.remove(match[0])
                     else:
                        recipe_list[row['recipe_name']] += 1/nn
-                       ingre_list.remove(match[0])
+                       # ingre_list.remove(match[0])
         return recipe_list, recipes_df
 
 
@@ -137,10 +139,11 @@ class Algorithm():
     
     
     
-    def recipe_scorer(self,df, coeff_p = 1,coeff_tt = 1, coeff_ni = 1, coeff_nutr = 1):  
+    def recipe_scorer(self,df):  
         
-        df['score'] = coeff_p * df['p'] + coeff_tt * (1/(df['total_time']/np.mean(df['total_time']))\
-                      + coeff_ni * (1/df['n_ingredients']/np.mean(df['n_ingredients'])))# + coeff_nutr * df['nutr'])
+        # df['score'] = coeff_p * df['p'] + coeff_tt * (1/(df['total_time']/np.mean(df['total_time'])) + coeff_ni * (1/df['n_ingredients']/np.mean(df['n_ingredients'])))# + coeff_nutr * df['nutr'])
+        
+        df['score'] = df['p'] + self.time_weight * (1/(df['total_time']/np.mean(df['total_time']))) + self.ingredient_number_weight * (1/(df['n_ingredients']/np.mean(df['n_ingredients'])))
         return df
     
     def sort_final(self,df):
@@ -237,10 +240,30 @@ def render():
         upper_sodium = int(processed_sodium[1])
         print(lower_sodium, upper_sodium)
 
-        try:
-            priority = request.form["priority"]
-        except:
-            priority = None
+        ingredient_number_weight = request.form["ingredient_number_weight"]
+        if ingredient_number_weight =="":
+            print("no num")
+            ingredient_number_weight = 0.5
+        else:
+            ingredient_number_weight = float(ingredient_number_weight)
+        if ingredient_number_weight > 0.5: 
+            strict = True
+        else:
+            strict = False
+        print(ingredient_number_weight)
+
+        time_weight = request.form["time_weight"]
+        if time_weight == "":
+            print("no num")
+            time_weight = 0.5
+        else:
+            time_weight = float(time_weight)
+        print(time_weight)
+        # nutrition_weight = request.form["nutrition_weight"]
+        # if nutrition_weight =="":
+        #     print("no num")
+        #     nutrition_weight = 1
+        # print(nutrition_weight)
 
         raw_num_rec = request.form["num_rec"]
         if raw_num_rec != "":
@@ -251,9 +274,11 @@ def render():
         	num_rec = 1
 
 
-        render_alg = Algorithm(processed_ingredients, processed_exclusions, time, lower_cals, upper_cals, lower_carbs, upper_carbs, lower_protein, upper_protein, lower_sodium, upper_sodium, priority, num_rec)
-        recipes = render_alg.check_final()
-
+        render_alg = Algorithm(processed_ingredients, processed_exclusions, time, lower_cals, upper_cals, lower_carbs, upper_carbs, lower_protein, upper_protein, lower_sodium, upper_sodium, ingredient_number_weight, time_weight, strict, num_rec)
+        try:
+            recipes = render_alg.check_final()
+        except FileNotFoundError:
+            return render_template('index.html', error="full_dataframe.csv not found. Did you download it from the Google Drive link in the readme and place it in the same folder as flask_dashboard.py?")
         if recipes == None:
             return render_template('index.html', error="Sorry, we couldn't find a recipe fulfilling your preferences. Please try again.")
             
