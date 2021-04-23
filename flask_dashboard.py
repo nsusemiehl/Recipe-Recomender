@@ -66,9 +66,9 @@ class Algorithm():
 
         ### Filtering recipe strictly for ingredients
         n = len(self.user_ingred_list)
-        if self.strict == "n":
-            recipes_df = recipes_df[recipes_df["n_ingredients"] <= n] 
-            pass
+        # if self.strict == "n":
+        #     recipes_df = recipes_df[recipes_df["n_ingredients"] <= n] 
+        #     pass
 
 
         ####Filtering: proportions and banned ingredients
@@ -242,7 +242,6 @@ def render():
 
         ingredient_number_weight = request.form["ingredient_number_weight"]
         if ingredient_number_weight =="":
-            print("no num")
             ingredient_number_weight = 0.5
         else:
             ingredient_number_weight = float(ingredient_number_weight)
@@ -254,7 +253,6 @@ def render():
 
         time_weight = request.form["time_weight"]
         if time_weight == "":
-            print("no num")
             time_weight = 0.5
         else:
             time_weight = float(time_weight)
@@ -268,11 +266,9 @@ def render():
         raw_num_rec = request.form["num_rec"]
         if raw_num_rec != "":
 	        num_rec = int(raw_num_rec)
-	        print(num_rec)
         else:
-        	print("no num")
         	num_rec = 1
-
+        print(num_rec)
 
         render_alg = Algorithm(processed_ingredients, processed_exclusions, time, lower_cals, upper_cals, lower_carbs, upper_carbs, lower_protein, upper_protein, lower_sodium, upper_sodium, ingredient_number_weight, time_weight, strict, num_rec)
         try:

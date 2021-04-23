@@ -55,19 +55,19 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
   	<form action="{{ url_for('render') }}" method="post" id="ingredientInputForm" enctype="multipart/form-data">
 
   	<h4>Ingredients List</h4>
-  	<label class="descr">The ingredients that you have available.</label>
+  	<label class="descr">What ingredients do you have available?</label>
 	<select id="mselect" name="ingredient_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 384px"></select>
 
 	<p></p>
 
 	<h4>Exclusions</h4>
-	<label class="descr">Recipes with these ingredients in them will not be returned.</label>
-	<select id="mselect2" name="exclusions_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 450px"></select>
+	<label class="descr">Are there any ingredients you want to avoid?</label>
+	<select id="mselect2" name="exclusions_input_text" data-placeholder="Begin typing an ingredient..." multiple class="chosen-select" style="width: 384px"></select>
 
 	<p></p>
 
 	<h4>Time Constraint</h4>
-	<label class="descr">Recipes that take more time than this to prepare will not be returned.</label>
+	<label class="descr">What's the most amount of time you want to spend cooking?</label>
 	<input name="time_input_text" type="number" min="1" placeholder="(minutes)">
 
 	<!--INGREDIENT LIST FOR SEARCH BAR------------>
@@ -115,7 +115,7 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 	<div class="slidecontainer">
 
     <h4>Nutritional Targets</h4>
-	<label class="descr">Only recipes with nutritients within the given ranges will be returned.</label>	
+	<label class="descr">What are your target nutritional ranges?</label>	
 	  <!--Calories Range Slider--------------------->
       <script>
 	  $( function() {
@@ -132,7 +132,7 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 	      " - " + $( "#calories-range" ).slider( "values", 1 ) );
 	  } );
 	  </script>
-
+	  <p></p>
 	  <label for="calories">Calories:</label>
 	  <input name="calories" type="text" id="calories" readonly style="border: 0; color: #F17300; font-weight:bold; background-color: #DBE4EE">
 	  <div id="calories-range"></div>
@@ -229,8 +229,8 @@ https://coolors.co/054a91-3e7cb1-81a4cd-dbe4ee-f17300
 	<p></p>
 
 	<h4>Number of Recipes</h4>
-	<label class="descr">The number of recipes to be returned.</label>
-	<input name="num_rec" type="number" min="1">
+	<label class="descr">How many recipes would you like to see?</label>
+	<input name="num_rec" type="number" min="1" max="100" placeholder="1">
 
 	<p></p>
 
