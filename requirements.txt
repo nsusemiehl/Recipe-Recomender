@@ -1,0 +1,9 @@
+pandas==1.0.1
+re==2.2.1
+np==1.18.1
+flask==1.1.1
+collections
+time
+ast
+sys
+json

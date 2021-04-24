@@ -1,7 +1,6 @@
 import pandas as pd
 import re
 from collections import defaultdict
-import time
 from ast import literal_eval
 import sys
 import numpy as np
@@ -38,7 +37,7 @@ class Algorithm():
 
     def get_data_and_recipes(self):
         #### Getting the data
-        recipes_df = pd.read_csv(r'full_dataframe.csv', na_values=['< 1']).fillna(0)
+        recipes_df = pd.read_csv(r'./data/full_dataframe.csv', na_values=['< 1']).fillna(0)
         recipes_df['ingredients'] = recipes_df.ingredients.apply(literal_eval)
         recipes_df['recipe_name'] = recipes_df['recipe_name'].astype(str)
         recipes_df = recipes_df[recipes_df['total_time'] != 0]
@@ -274,7 +273,7 @@ def render():
         try:
             recipes = render_alg.check_final()
         except FileNotFoundError:
-            return render_template('index.html', error="full_dataframe.csv not found. Did you download it from the Google Drive link in the readme and place it in the same folder as flask_dashboard.py?")
+            return render_template('index.html', error="full_dataframe.csv not found. It should be in ./data/")
         if recipes == None:
             return render_template('index.html', error="Sorry, we couldn't find a recipe fulfilling your preferences. Please try again.")
             
