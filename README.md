@@ -17,6 +17,18 @@ Navigate to ./Recipe-Recomender-master
 Navigate to the address given by your system.  It typically defaults to http://127.0.0.1:5000/
 From there, follow the directions on the UI.
 
+We did not do extensive testing in MacOS, as we did not have it readily available for develoment and testing.  If MacOS is required, follow these steps:
+>cd ./Recipe-Recomender-master
+>python3 -m venv flask
+>. flask/bin/activate
+>pip install Flask
+>pip install wheel
+>pip install pandas
+>export FLASK_APP=flask_dashboard.py
+>flask run
+
+Using a virtual Windows environment may also work.
+
 Depending on requirements chosen and computing power, it may take up to a few minutes to return the recipes.
 
 Video for running on Windows: https://youtu.be/sLMzK9bqdlw
