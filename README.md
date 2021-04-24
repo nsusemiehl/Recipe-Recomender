@@ -16,6 +16,7 @@ Navigate to ./Recipe-Recomender-master
 
 Navigate to the address given by your system.  It typically defaults to http://127.0.0.1:5000/
 From there, follow the directions on the UI.
+Note: After running one search, the page may need to be refreshed to run a second search.
 
 We did not do extensive testing in MacOS, as we did not have it readily available for develoment and testing.  If MacOS is required, follow these steps:
 >cd ./Recipe-Recomender-master
